@@ -2,7 +2,7 @@ class ApplicationApi < Grape::API
   format :json
   extend Napa::GrapeExtenders
 
-  mount HelloApi => '/'
+  mount ConnectionsApi => '/connections'
 
   add_swagger_documentation
 end

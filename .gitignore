@@ -10,3 +10,4 @@ coverage
 !.keep
 .ruby-gemset
 .ruby-version
+*.swp

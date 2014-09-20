@@ -8,12 +8,14 @@ class ConnectionsApi < Grape::API
     represent connections, with: ConnectionRepresenter
   end
 
-  desc 'Create an connection'
+  desc 'Create a connection'
   params do
+    requires :merchant_id, type: Integer, desc: "Hashed Screen Name of Merchant"
+    requires :user_id, type: Integer, desc: "Hashed Screen Name of User"
   end
 
   post do
-    connection = Connection.create!(permitted_params)
+    connection = Connection.create(permitted_params)
     represent connection, with: ConnectionRepresenter
   end
 
@@ -21,19 +23,9 @@ class ConnectionsApi < Grape::API
     requires :id, desc: 'ID of the connection'
   end
   route_param :id do
-    desc 'Get an connection'
+    desc 'Get a connection'
     get do
       connection = Connection.find(params[:id])
-      represent connection, with: ConnectionRepresenter
-    end
-
-    desc 'Update an connection'
-    params do
-    end
-    put do
-      # fetch connection record and update attributes.  exceptions caught in app.rb
-      connection = Connection.find(params[:id])
-      connection.update_attributes!(permitted_params)
       represent connection, with: ConnectionRepresenter
     end
   end
