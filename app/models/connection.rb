@@ -11,8 +11,8 @@ class Connection < ActiveRecord::Base
   end
 
   def fresh_connection
-    merchant = Services::Merchants.find(merchant_id)
-    user = Services::Users.find(user_id)
+    merchant = Services::Merchants.find(merchant_id).symbolize_keys
+    user = Services::Users.find(user_id).symbolize_keys
 
     return errors.add(:merchant_id, "does not exist") if merchant[:error]
     return errors.add(:user_id, "does not exist") if user[:error]

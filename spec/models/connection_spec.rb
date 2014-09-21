@@ -19,14 +19,14 @@ describe Connection do
   describe "#fresh_connection" do
     context "with missing fields" do
       it "is false without user_id" do
-        Services::Users.stub(:find).with(nil).and_return({:error => 'test'})
+        Services::Users.stub(:find).with(0).and_return({:error => 'test'})
         Services::Merchants.stub(:find).with(123123123).and_return({:data => {"object_type"=>"merchant", "id"=>"2", "name"=>"Bob's Burgers", "email_address"=>"bob@test.com", "hashed_screen_name"=>5814721655289093417, "ttl"=>0}})
         connection = Connection.new(merchant_id: 123123123)
         expect(connection).not_to be_valid
       end
 
       it "is false without merchant_id" do
-        Services::Merchants.stub(:find).with(nil).and_return({:error => 'test'})
+        Services::Merchants.stub(:find).with(0).and_return({:error => 'test'})
         Services::Users.stub(:find).with(123123123).and_return({:data => {"object_type"=>"user", "id"=>"2", "first_name"=>"bob","last_name"=>"jay", "email_address"=>"bob@test.com", "hashed_screen_name"=>5814721655289093417}})
         connection = Connection.new(user_id: 123123123)
         expect(connection).not_to be_valid
