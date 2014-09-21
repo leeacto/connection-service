@@ -131,4 +131,22 @@ describe ConnectionsApi do
     end
   end
 
+  describe "get /merchant/:merchant_id/user_count" do
+    let!(:connection) { c =FactoryGirl.build(:connection); c.save(validate: false); c }
+    context "with valid merchant ID" do
+      it "returns the correct count" do
+        get "/connections/merchant/#{connection.merchant_id}/user_count"
+        expect(parsed_response[:user_count]).to eq 1
+        expect(last_response.status).to eq 200
+      end
+    end
+
+    context "with invalid merchant ID" do
+      it "returns 0" do
+        get "/connections/merchant/0/user_count"
+        expect(parsed_response[:user_count]).to eq 0
+        expect(last_response.status).to eq 200
+      end
+    end
+  end
 end

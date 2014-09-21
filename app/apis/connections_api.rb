@@ -49,5 +49,14 @@ class ConnectionsApi < Grape::API
       error! "Connection Not Found", 404
     end
   end
+  
+  desc 'Get the number of unique connections for a merchant'
+  params do
+    requires :merchant_id, desc: 'ID of the merchant'
+  end
+  get '/merchant/:merchant_id/user_count' do
+    count = Connection.where(merchant_id: params[:merchant_id]).pluck(:user_id).uniq.count
+    { :user_count => count }
+  end
 
 end
