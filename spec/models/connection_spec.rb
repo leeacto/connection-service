@@ -2,8 +2,21 @@ require 'spec_helper'
 
 describe Connection do
 
+  describe ".last_connection" do
+    it "returns nil without previous connections" do
+      expect(Connection.last_connection(1,1)).to be_nil
+    end
 
-  describe "fresh_connection" do
+    it "returns the last connection for the user" do
+      5.times do |n|
+        c = n % 2 == 0 ? FactoryGirl.build(:connection) : FactoryGirl.build(:connection, merchant_id: 2)
+        c.save(validate: false)
+      end
+      expect(Connection.last_connection(1,1)).to eq Connection.where(user_id: 1, merchant_id: 1).order('created_at desc').first
+    end
+  end
+
+  describe "#fresh_connection" do
     context "with missing fields" do
       it "is false without user_id" do
         Services::Users.stub(:find).with(nil).and_return({:error => 'test'})
