@@ -1,6 +1,8 @@
 class Connection < ActiveRecord::Base
   require './lib/services/users_service.rb'
   require './lib/services/merchants_service.rb'
+
+  attr_accessor :first_visit
   
   validate      :fresh_connection, message: "Last User Check-In was too recent"
 
@@ -17,7 +19,9 @@ class Connection < ActiveRecord::Base
 
     last_connection = self.class.last_connection(user_id, merchant_id)
     unless last_connection.nil? || merchant[:data][:ttl] == 0 || last_connection.created_at + (3600 * merchant[:data]['ttl']) < Time.now
-      errors.add(:created_at, "connection created too recently")
+      return errors.add(:created_at, "connection created too recently")
     end
+
+    self.first_visit = true if last_connection.nil?
   end
 end

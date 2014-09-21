@@ -13,7 +13,6 @@ class ConnectionsApi < Grape::API
     requires :merchant_id, type: Integer, desc: "Hashed Screen Name of Merchant"
     requires :user_id, type: Integer, desc: "Hashed Screen Name of User"
   end
-
   post do
     Napa::Logger.logger.info "Creating Connection: #{permitted_params}"
     connection = Connection.create(permitted_params)
@@ -34,6 +33,20 @@ class ConnectionsApi < Grape::API
     get do
       connection = Connection.find(params[:id])
       represent connection, with: ConnectionRepresenter
+    end
+  end
+
+  desc 'Delete a connection'
+  params do
+    requires :id, desc: 'ID of the connection'
+    requires :merchant_id, desc: 'ID of the merchant'
+  end
+  delete ':id' do
+    connection = Connection.where(id: params[:id], merchant_id: params[:merchant_id]).first
+    if connection
+      connection.destroy
+    else
+      error! "Connection Not Found", 404
     end
   end
 end
