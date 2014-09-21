@@ -49,4 +49,5 @@ class ConnectionsApi < Grape::API
       error! "Connection Not Found", 404
     end
   end
+
 end
