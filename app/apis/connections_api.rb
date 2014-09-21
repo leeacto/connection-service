@@ -15,8 +15,15 @@ class ConnectionsApi < Grape::API
   end
 
   post do
+    Napa::Logger.logger.info "Creating Connection: #{permitted_params}"
     connection = Connection.create(permitted_params)
-    represent connection, with: ConnectionRepresenter
+    if connection.errors.blank?
+      Napa::Logger.logger.info "Connection (id: #{connection.id}) successfully created"
+      represent connection, with: ConnectionRepresenter
+    else
+      Napa::Logger.logger.info "Connection not created - error: #{connection.errors.full_messages.to_sentence}"
+      error! connection.errors.full_messages.to_sentence, 400
+    end
   end
 
   params do

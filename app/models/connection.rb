@@ -12,8 +12,8 @@ class Connection < ActiveRecord::Base
     merchant = Services::Merchants.find(merchant_id)
     user = Services::Users.find(user_id)
 
-    return errors.add(:merchant_id, "Merchant does not exist") if merchant[:error]
-    return errors.add(:user_id, "User does not exist") if user[:error]
+    return errors.add(:merchant_id, "does not exist") if merchant[:error]
+    return errors.add(:user_id, "does not exist") if user[:error]
 
     last_connection = self.class.last_connection(user_id, merchant_id)
     unless last_connection.nil? || merchant[:data][:ttl] == 0 || last_connection.created_at + (3600 * merchant[:data]['ttl']) < Time.now
