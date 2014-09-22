@@ -9,7 +9,7 @@ This Rack app is a small service to be used in conjunction with Belly's Check-In
 ## Installation
 * Clone Connection Service from [here](https://github.com/leeacto/connection-service)
 * Run <code>bundle install</code>
-* Run <code>rake db:reset; RACK_ENV=test rake db:reset</code> to create the database
+* Run <code>rake db:create; RACK_ENV=test rake db:create</code> to create the database
 * Run <code>rake db:migrate; RACK_ENV=test rake db:migrate</code> to create tables
 
 ## Usage
