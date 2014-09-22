@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140921225246) do
+ActiveRecord::Schema.define(version: 20140922153947) do
 
   create_table "connections", force: true do |t|
     t.integer  "merchant_id", limit: 8, default: 0, null: false
@@ -18,5 +18,8 @@ ActiveRecord::Schema.define(version: 20140921225246) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "connections", ["merchant_id"], name: "index_connections_on_merchant_id", using: :btree
+  add_index "connections", ["user_id"], name: "index_connections_on_user_id", using: :btree
 
 end
