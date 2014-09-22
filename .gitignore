@@ -2,7 +2,7 @@
 .vagrant
 .rspec
 !.env.test
-log/*
+log/*.log
 tmp/*
 coverage
 !.keep
